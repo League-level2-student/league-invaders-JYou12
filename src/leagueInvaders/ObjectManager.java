@@ -1,9 +1,12 @@
 package leagueInvaders;
 
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ObjectManager {
+public class ObjectManager implements ActionListener{
 	ArrayList<Alien> aliens = new ArrayList<Alien>();
 	Random random = new Random();
 	
@@ -37,6 +40,36 @@ public class ObjectManager {
 				pro.get(i).isActive = false;
 			}
 		}
+		
+	}
+	
+	void draw(Graphics g) {
+		
+		rocket.draw(g);
+		
+		for(int i= 0; i < aliens.size(); i++) {
+			aliens.get(i).draw(g);
+			pro.get(i).draw(g);
+		}
+		
+	}
+	
+	void purgeObjects() {
+		
+		int x = aliens.size();
+		while(aliens.get(x).isActive == true) {
+			if(aliens.get(x).isActive == false) {
+				aliens.remove(x);
+			}
+			x--;
+		}
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+
+		addAlien();
 		
 	}
 	
