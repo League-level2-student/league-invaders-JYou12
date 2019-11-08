@@ -26,6 +26,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	int currentState = menu;
 	
 	Timer frameDraw;
+	Timer alienSpawn;
 	Font titleFont;
 	Font textFont;
 	Rocketship rocket = new Rocketship(250, 700, 50, 50);
@@ -129,9 +130,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if(currentState == end) {
+				alienSpawn.stop();
 				currentState = menu;
 			}else {
 				currentState ++;
+				startGame();
 			}
 		}
 		
@@ -149,6 +152,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			rocket.right();
+		}
+		
+		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+			objManager.addProjectile(rocket.getProjectile());
+			System.out.println("works");
 		}
 		
 	}
@@ -177,5 +185,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	    }
 	}
 
+	void startGame(){
+	
+		alienSpawn = new Timer(1000, objManager);
+		alienSpawn.start();
+		
+	}
 	
 }
