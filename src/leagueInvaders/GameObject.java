@@ -1,11 +1,15 @@
 package leagueInvaders;
 
+import java.awt.Rectangle;
+
 public class GameObject {
 
 	int x;
 	int y;
 	int width;
 	int height;
+	
+	Rectangle collisionBox = new Rectangle();
 	
 	int speed = 0;
 	boolean isActive = true;
@@ -18,7 +22,7 @@ public class GameObject {
 	}
 	
 	void update(){
-		
+        collisionBox.setBounds(x, y, width, height);
 	}
 	
 }

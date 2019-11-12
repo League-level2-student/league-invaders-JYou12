@@ -12,12 +12,15 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.xml.soap.Text;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener{
 
 	public static BufferedImage image;
 	public static boolean needImage = true;
 	public static boolean gotImage = true;
+	
+	public static boolean peirce = false;
 	
 	final int menu = 0;
 	final int game = 1;
@@ -50,7 +53,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	void updateGameState() {
 	
 		objManager.update();
-		
+		if(!rocket.isActive) {
+			currentState++;
+		}
 	}
 	
 	void updateEndState() {
@@ -84,6 +89,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		g.fillRect(0, 0, LeagueInvaders.frame.getWidth(), LeagueInvaders.frame.getHeight());
 		}
 		objManager.draw(g);
+		
+		String str = "" + objManager.score;
+		g.drawString(str, 100, 100);
+		
 		
 	}
 	
@@ -156,15 +165,23 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		
 		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
 			objManager.addProjectile(rocket.getProjectile());
-			System.out.println("works");
 		}
 		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
+
+		int keyCode = arg0.getKeyCode();
+		switch(keyCode) {
+		case KeyEvent.VK_UP: 
+		case KeyEvent.VK_DOWN:
+		case KeyEvent.VK_LEFT:
+		case KeyEvent.VK_RIGHT:
+			rocket.xSpeed = 0;
+			rocket.ySpeed = 0;
+			break;
+		}
 	}
 
 	@Override
