@@ -85,7 +85,6 @@ public class ObjectManager implements ActionListener{
 		while(x >= 0) {
 			if(aliens.get(x).isActive == false) {
 				aliens.remove(x);
-				System.out.println("Removed");
 			}
 			x--;
 		}
@@ -94,7 +93,6 @@ public class ObjectManager implements ActionListener{
 		while(s >= 0) {
 			if(pro.get(s).isActive == false) {
 				pro.remove(s);
-				System.out.println("Removed");
 			}
 			s--;
 		}
@@ -122,6 +120,15 @@ public class ObjectManager implements ActionListener{
 			}
 		}
 		}
+		
+		for(int i = aliens.size() - 1; i >= 0; i--) {
+			if(aliens.get(i).collisionBox.intersects(rocket.collisionBox)) {
+				aliens.get(i).isActive = false;
+				rocket.isActive = false;
+				System.out.println("Rocket removed");
+		}
+		}
+		
 	}
 	
 	public int getScore() {

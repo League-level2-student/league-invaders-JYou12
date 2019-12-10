@@ -90,8 +90,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		}
 		objManager.draw(g);
 		
-		String str = "" + objManager.score;
-		g.drawString(str, 100, 100);
+		g.setFont(textFont);
+		g.setColor(Color.WHITE);
+		String str = "Points: " + objManager.score;
+		g.drawString(str, 50, 50);
 		
 		
 	}
@@ -103,6 +105,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		g.setFont(titleFont);
 		g.setColor(Color.BLACK);
 		g.drawString("GAME OVER", 115, 400);
+		endGame();
 		
 	}
 	
@@ -139,6 +142,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if(currentState == end) {
+				rocket = new Rocketship(250, 750, 50, 50);
+				objManager = new ObjectManager(rocket);
 				alienSpawn.stop();
 				currentState = menu;
 			}else {
@@ -147,19 +152,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 			}
 		}
 		
-		if (e.getKeyCode()==KeyEvent.VK_UP) {
+		if (e.getKeyCode()==KeyEvent.VK_UP&&rocket.y > 0) {
 		    rocket.up();
 		}
 		
-		if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+		if(e.getKeyCode() == KeyEvent.VK_DOWN&&rocket.y<720) {
 			rocket.down();
 		}
 		
-		if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+		if(e.getKeyCode() == KeyEvent.VK_LEFT&&rocket.x>WIDTH) {
 			rocket.left();
 		}
 		
-		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+		if(e.getKeyCode() == KeyEvent.VK_RIGHT&&rocket.x<450) {
 			rocket.right();
 		}
 		
@@ -203,10 +208,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	}
 
 	void startGame(){
-	
+		
+		rocket.isActive = true;
 		alienSpawn = new Timer(1000, objManager);
 		alienSpawn.start();
 		
+	}
+	
+	void endGame() {
+		
+		objManager.purgeObjects();
+		alienSpawn.stop();
 	}
 	
 }
